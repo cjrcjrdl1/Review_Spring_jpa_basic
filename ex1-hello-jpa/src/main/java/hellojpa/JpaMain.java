@@ -18,15 +18,12 @@ public class JpaMain {
 
         try {
 
-            Member member = em.find(Member.class, 150L);
-            member.setName("AAAAA");
+            Member member = new Member();
+            member.setId(1L);
+            member.setUsername("A");
+            member.setRoleType(RoleType.USER);
 
-            em.clear();
-
-            Member member2 = em.find(Member.class, 150L);
-
-
-            System.out.println("===================");
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
