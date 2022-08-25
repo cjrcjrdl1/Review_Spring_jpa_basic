@@ -19,8 +19,6 @@ public class JpaMain {
 
         try {
 
-            Order order = new Order();
-
 
 
             tx.commit();
