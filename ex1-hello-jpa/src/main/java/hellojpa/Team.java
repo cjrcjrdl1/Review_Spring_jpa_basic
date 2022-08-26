@@ -48,4 +48,43 @@ public class Team extends BaseEntity{
         this.name = name;
     }
 
+    @Override
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    @Override
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    @Override
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    @Override
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    @Override
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    @Override
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 }
