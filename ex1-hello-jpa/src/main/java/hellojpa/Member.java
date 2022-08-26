@@ -2,6 +2,7 @@ package hellojpa;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 public class Member {
@@ -15,23 +16,22 @@ public class Member {
     private String username;
 
     @Embedded
-    private Period workPeriod;
-
-    @Embedded
-    private Address workAddress;
-
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "city",
-            column = @Column(name = "WORK_CITY")),
-            @AttributeOverride(name = "street",
-            column = @Column(name = "WORK_STREET")),
-            @AttributeOverride(name = "zipcode",
-            column = @Column(name = "WORK_ZIPCODE"))
-    })
     private Address homeAddress;
 
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
+
+
+//    @ElementCollection
+//    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+//    private List<Address> addressHistory = new ArrayList<>();
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -49,13 +49,6 @@ public class Member {
         this.username = username;
     }
 
-    public Period getWorkPeriod() {
-        return workPeriod;
-    }
-
-    public void setWorkPeriod(Period workPeriod) {
-        this.workPeriod = workPeriod;
-    }
 
     public Address getHomeAddress() {
         return homeAddress;
@@ -63,5 +56,36 @@ public class Member {
 
     public void setHomeAddress(Address homeAddress) {
         this.homeAddress = homeAddress;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
+
+    public List<AddressEntity> getAddressHistory() {
+        return addressHistory;
+    }
+
+
+
+    public void setAddressHistory(List<AddressEntity> addressHistory) {
+        this.addressHistory = addressHistory;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id) && Objects.equals(username, member.username) && Objects.equals(homeAddress, member.homeAddress) && Objects.equals(favoriteFoods, member.favoriteFoods) && Objects.equals(addressHistory, member.addressHistory);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, homeAddress, favoriteFoods, addressHistory);
     }
 }
