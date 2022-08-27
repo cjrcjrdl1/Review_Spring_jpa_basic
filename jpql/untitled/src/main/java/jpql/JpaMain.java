@@ -14,21 +14,17 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
-
             Member member = new Member();
-            member.setUsername(null);
-            member.setAge(10);
-            member.setTeam(team);
-            member.setType(MemberType.ADMIN);
+            member.setUsername("관리자1");
             em.persist(member);
 
+            Member member2 = new Member();
+            member2.setUsername("관리자2");
+            em.persist(member2);
             em.flush();
             em.clear();
 
-            String query = "select coalesce(m.username, '이름 없는 회원') from Member m";
+            String query = "select function('group_concat', m.username)  from Member m";
             List<String> result = em.createQuery(query, String.class)
                     .getResultList();
 
