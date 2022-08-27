@@ -22,17 +22,21 @@ public class JpaMain {
             member.setUsername("teamA");
             member.setAge(10);
             member.setTeam(team);
+            member.setType(MemberType.ADMIN);
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            String query = "select m from Member m left join m.team t on t.name = 'teamA'";
-            List<Member> result = em.createQuery(query, Member.class)
+            String query = "select m.username, 'HELLO', TRUE from Member m where m.type =jpql.MemberType.ADMIN";
+            List<Object[]> result = em.createQuery(query)
                     .getResultList();
 
-            System.out.println("result.size() = " + result.size());
-
+            for (Object[] objects : result) {
+                System.out.println("objects[0] = " + objects[0]);
+                System.out.println("objects[0] = " + objects[1]);
+                System.out.println("objects[0] = " + objects[2]);
+            }
 
             tx.commit();
 
